@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory
 import uk.kulikov.model.LaMetricHost
 import uk.kulikov.model.LaMetricState
 import uk.kulikov.model.toNotification
+import java.security.cert.X509Certificate
+import javax.net.ssl.X509TrustManager
 
 object LaMetricNotifier {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -26,6 +28,17 @@ object LaMetricNotifier {
             json()
         }
         install(Logging)
+        engine {
+            https {
+                trustManager = object: X509TrustManager {
+                    override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) { }
+
+                    override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) { }
+
+                    override fun getAcceptedIssuers(): Array<X509Certificate>? = null
+                }
+            }
+        }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -39,7 +52,7 @@ object LaMetricNotifier {
             try {
                 notifyOneDevice(host, state)
             } catch (e: Throwable) {
-                e.printStackTrace()
+                logger.error("Failed to notify $state to $host", e)
             }
         }
     }
@@ -48,7 +61,7 @@ object LaMetricNotifier {
         val notification = state.toNotification()
         val response = client.post("${host.host}/api/v2/device/notifications") {
             setBody(notification)
-            bearerAuth(host.token)
+            basicAuth("dev", host.token)
             contentType(ContentType.Application.Json)
         }
 
