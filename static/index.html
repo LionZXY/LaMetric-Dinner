@@ -55,11 +55,16 @@
         }
 
         #container {
-            width: 300px;
+            width: 30%;
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
             gap: 10px;
+        }
+        @media only screen and (max-width: 768px) {
+            #container {
+                width: 90%;
+            }
         }
 
         body {
