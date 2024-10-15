@@ -8,6 +8,8 @@ RUN ./gradlew buildFatJar
 
 FROM openjdk:24-slim as runner
 
+RUN apt-get update && apt-get install avahi-utils -y
+
 WORKDIR /app/
 
 COPY --from=builder /app/build/libs/lametric-dinner-*.jar web.jar
