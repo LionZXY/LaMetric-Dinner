@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+    <title>Food Status Changer</title>
+    <style>
+        /* CSS */
+        .button-3 {
+            appearance: none;
+            background-color: #2ea44f;
+            border: 1px solid rgba(27, 31, 35, .15);
+            border-radius: 6px;
+            box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+            padding: 6px 16px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .button-3:focus:not(:focus-visible):not(.focus-visible) {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .button-3:hover {
+            background-color: #2c974b;
+        }
+
+        .button-3:focus {
+            box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+            outline: none;
+        }
+
+        .button-3:disabled {
+            background-color: #94d3a2;
+            border-color: rgba(27, 31, 35, .1);
+            color: rgba(255, 255, 255, .8);
+            cursor: default;
+        }
+
+        .button-3:active {
+            background-color: #298e46;
+            box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+        }
+
+        #container {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            gap: 10px;
+        }
+
+        body {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <script>
+        async function setState(state) {
+            let progressBar = document.getElementById("progressBar")
+            let controls = document.getElementsByClassName("control")
+            progressBar.style.display = "block"
+            Array.prototype.forEach.call(controls, function(control) {
+                control.style.display = "none"
+            });
+            try {
+                const response = await fetch('/change?state=' + state);
+                document.getElementById("status").textContent = await response.text()
+                console.log('Completed!', response);
+            } catch (err) {
+                alert(`Failed ${err}`)
+                console.error(`Error: ${err}`);
+            }
+            progressBar.style.display = "none"
+            Array.prototype.forEach.call(controls, function(control) {
+                control.style.display = "block"
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="container">
+    <progress id="progressBar" style="width: 100%; display: none"></progress>
+
+    <div id="status" class="control">Set status:</div>
+    <button class="button-3 control" role="button" onclick="setState(0)">No Action</button>
+    <button class="button-3 control" role="button" onclick="setState(1)">Ready for order</button>
+    <button class="button-3 control" role="button" onclick="setState(2)">Ordered</button>
+    <button class="button-3 control" role="button" onclick="setState(3)">Eat!</button>
+    <button class="button-3 control" role="button" onclick="setState(4)">Henry</button>
+</div>
+</body>
+</html>

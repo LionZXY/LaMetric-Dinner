@@ -1,0 +1,7 @@
+services:
+  dinner:
+    build: .
+    ports:
+      - "80:8080"
+    volumes:
+      - ./hosts.json:/app/hosts.json
