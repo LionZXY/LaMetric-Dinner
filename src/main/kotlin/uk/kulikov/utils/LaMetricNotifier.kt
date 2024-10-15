@@ -25,15 +25,15 @@ object LaMetricNotifier {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val client = HttpClient(CIO) {
         install(ContentNegotiation) {
-            json()
+            json(Json { explicitNulls = false })
         }
         install(Logging)
         engine {
             https {
-                trustManager = object: X509TrustManager {
-                    override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) { }
+                trustManager = object : X509TrustManager {
+                    override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {}
 
-                    override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) { }
+                    override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) {}
 
                     override fun getAcceptedIssuers(): Array<X509Certificate>? = null
                 }
