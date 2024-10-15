@@ -1,4 +1,4 @@
-FROM openjdk:24-slim as builder
+FROM openjdk:24 as builder
 
 WORKDIR /app/
 
@@ -6,7 +6,7 @@ COPY . .
 
 RUN ./gradlew buildFatJar
 
-FROM openjdk:24-slim as runner
+FROM openjdk:24-jre-slim as runner
 
 WORKDIR /app/
 
