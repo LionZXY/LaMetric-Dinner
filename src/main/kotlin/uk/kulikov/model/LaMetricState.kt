@@ -1,7 +1,9 @@
 package uk.kulikov.model
 
+import kotlinx.serialization.Serializable
 import uk.kulikov.model.api.*
 
+@Serializable
 enum class LaMetricState(
     val icon: Int,
     val soundId: String?,
