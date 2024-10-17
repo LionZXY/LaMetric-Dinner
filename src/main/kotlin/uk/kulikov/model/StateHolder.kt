@@ -16,8 +16,8 @@ private val storageFile = Path("data/data.json")
 
 @Serializable
 private data class SavedState(
-    val time: LocalDate = now(),
-    val state: LaMetricState = LaMetricState.NO_ACTIONS,
+    val time: LocalDate,
+    val state: LaMetricState,
 )
 
 object StateHolder {
@@ -28,7 +28,10 @@ object StateHolder {
                 SystemFileSystem.source(storageFile).buffered().use {
                     Json.decodeFromSource<SavedState>(it)
                 }
-            }.getOrNull() ?: SavedState()
+            }.getOrNull() ?: SavedState(
+                time = now(),
+                state = LaMetricState.NO_ACTIONS
+            )
 
             return if (stateWithTimezone.time != now()) {
                 DEFAULT
@@ -38,7 +41,8 @@ object StateHolder {
             SystemFileSystem.sink(storageFile).buffered().use { sink ->
                 Json.encodeToSink(
                     SavedState(
-                        state = value
+                        state = value,
+                        time = now()
                     ),
                     sink
                 )

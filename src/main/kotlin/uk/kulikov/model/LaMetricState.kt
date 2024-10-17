@@ -5,12 +5,12 @@ import uk.kulikov.model.api.*
 
 @Serializable
 enum class LaMetricState(
-    val icon: Int,
+    val icon: Int?,
     val soundId: String?,
     val text: String
 ) {
     NO_ACTIONS(
-        icon = 5018,
+        icon = null,
         soundId = null,
         text = "-"
     ),
@@ -39,7 +39,7 @@ enum class LaMetricState(
 fun LaMetricState.toResponse() = LaMetricResponse(
     frames = listOf(
         LaMetricFrame(
-            icon = icon.toString(),
+            icon = icon?.toString(),
             text = text
         )
     )
@@ -49,7 +49,7 @@ fun LaMetricState.toNotification() = LaMetricNotification(
     model = LaMetricNotificationModel(
         frames = listOf(
             LaMetricFrame(
-                icon = icon.toString(),
+                icon = icon?.toString(),
                 text = text
             )
         ),

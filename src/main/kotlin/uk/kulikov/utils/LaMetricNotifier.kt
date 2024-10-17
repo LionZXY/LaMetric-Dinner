@@ -42,7 +42,7 @@ object LaMetricNotifier {
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private val hosts = SystemFileSystem.source(Path("hosts.json")).use {
+    private val hosts = SystemFileSystem.source(Path("data/hosts.json")).use {
         Json.decodeFromSource<List<LaMetricHost>>(it.buffered())
     }
 

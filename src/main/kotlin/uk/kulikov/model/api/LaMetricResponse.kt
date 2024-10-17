@@ -9,6 +9,6 @@ data class LaMetricResponse(
 
 @Serializable
 data class LaMetricFrame(
-    val icon: String,
+    val icon: String?,
     val text: String
 )
