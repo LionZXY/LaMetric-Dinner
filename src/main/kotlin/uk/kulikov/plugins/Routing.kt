@@ -8,6 +8,7 @@ import uk.kulikov.model.LaMetricState
 import uk.kulikov.model.StateHolder
 import uk.kulikov.model.toResponse
 import uk.kulikov.utils.LaMetricNotifier
+import uk.kulikov.utils.SlackNotifier
 import java.io.File
 import javax.swing.plaf.nimbus.State
 
@@ -18,6 +19,7 @@ fun Application.configureRouting() {
             val state = LaMetricState.entries[status]
             StateHolder.state = state
             LaMetricNotifier.notify(state)
+            SlackNotifier.notify(state)
 
             call.respond("Change to $state")
         }
