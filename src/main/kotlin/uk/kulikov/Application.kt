@@ -12,7 +12,7 @@ fun main() {
 
 fun Application.module() {
     configureSecurity()
-    configureMonitoring()
+    //configureMonitoring()
     configureSerialization()
     configureRouting()
 }
